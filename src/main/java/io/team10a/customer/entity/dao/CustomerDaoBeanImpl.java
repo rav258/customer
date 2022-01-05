@@ -26,37 +26,16 @@ public class CustomerDaoBeanImpl {
         return customer;
     }
 
-    public void deleteCustomer(Long id){
-        final Customer byID = findByID(id);
-        if (byID!=null) {
-            entityManager.remove(byID);
-        }
-    }
-
-    public void deleteCustomerRest(Long id){
+    public void deleteCustomerRest(Long id) {
         Customer customer = entityManager.find(Customer.class, id);
         entityManager.remove(customer);
     }
-
-
-
-    public Customer findByID(Long id){
-        final List<Customer> customers = customerList();
-        return customers.stream()
-                .filter(a-> Objects.equals(a.getId(), id))
-                .findFirst()
-                .orElse(null);
-    }
-
 
     public List<Customer> customerList() {
         return entityManager.createNamedQuery("Customer.findAll", Customer.class).getResultList();
     }
 
-
     public Customer findByid(Long id) {
-        return entityManager.find(Customer.class,id);
+        return entityManager.find(Customer.class, id);
     }
-
-
 }

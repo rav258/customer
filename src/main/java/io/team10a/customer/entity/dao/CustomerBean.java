@@ -28,12 +28,6 @@ public class CustomerBean implements Serializable {
 
     Long id;
 
-
-    public String getAllCustomers() {
-        return customerDaoBeanImpl.customerList().stream().map(Customer::toString).collect(Collectors.joining(", "));
-    }
-
-
     public List<Customer> getAllCustomersList() {
         return customerDaoBeanImpl.customerList();
     }
@@ -45,14 +39,7 @@ public class CustomerBean implements Serializable {
         emailProvidedByUser = null;
     }
 
-    public void deleteCustomerById() {
-        customerDaoBeanImpl.deleteCustomer(id);
-        id = null;
+    public void deleteCustomer(Long id) {
+        customerDaoBeanImpl.deleteCustomerRest(id);
     }
-
-    public void deleteByInput(Long idik) {
-        customerDaoBeanImpl.deleteCustomer(idik);
-    }
-
-
 }

@@ -24,7 +24,8 @@
         <input jsf:id="lastName" type="text" placeholder="Enter Last name: "
                jsf:value="#{customerBean.lastNameProvidedByUser}"/>
         <br/>
-        <input jsf:id="email" type="text" placeholder="Enter email: " jsf:value="#{customerBean.emailProvidedByUser}"/>
+        <input jsf:id="email" type="text" placeholder="Enter email: "
+               jsf:value="#{customerBean.emailProvidedByUser}"/>
         <br/>
 
         <button jsf:id="customerSubmit1" jsf:action="#{customerBean.saveCustomer()}">
@@ -37,7 +38,7 @@
         <h:messages styleClass="validation"/>
         <input jsf:id="id" type="text" placeholder="Enter id: " jsf:value="#{customerBean.id}"/>
 
-        <button jsf:id="customerSubmit2" jsf:action="#{customerBean.deleteCustomerById()}">
+        <button jsf:id="customerSubmit2" jsf:action="#{customerBean.deleteCustomer(customerBean.id)}">
             <f:ajax execute="id" render="@form :tablePanel"/>
             Delete
         </button>
@@ -70,7 +71,7 @@
 
         <h:column>
             <f:facet name="header">Action</f:facet>
-            <button jsf:onclick="return confirm('Are you sure ?')" value="Submit" jsf:id="deleteB" jsf:action="#{customerBean.deleteByInput(customer.id)}">
+            <button jsf:onclick="return confirm('Are you sure ?')" value="Submit" jsf:id="deleteB" jsf:action="#{customerBean.deleteCustomer(customer.id)}">
                 <f:ajax execute="deleteB" render="@form @all" />
                 Delete
             </button>
