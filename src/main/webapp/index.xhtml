@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+
+<h:head>
+    <title>Title</title>
+</h:head>
+
+<h:body>
+    <h:outputStylesheet library="css" name="customerTable.css"/>
+
+    <p>Enter Customer Data</p>
+
+
+    <form jsf:id="customerForm" Class="form-style-5">
+        <h:messages styleClass="validation"/>
+        <input jsf:id="firstName" type="text" placeholder="Enter first name: "
+               jsf:value="#{customerBean.firstNameProvidedByUser}"/>
+        <br/>
+        <input jsf:id="lastName" type="text" placeholder="Enter Last name: "
+               jsf:value="#{customerBean.lastNameProvidedByUser}"/>
+        <br/>
+        <input jsf:id="email" type="text" placeholder="Enter email: " jsf:value="#{customerBean.emailProvidedByUser}"/>
+        <br/>
+
+        <button jsf:id="customerSubmit1" jsf:action="#{customerBean.saveCustomer()}">
+            <f:ajax execute="firstName lastName email" render="@form :tablePanel"/>
+            Send
+        </button>
+    </form>
+
+    <form jsf:id="customerForm2" Class="form-style-5">
+        <h:messages styleClass="validation"/>
+        <input jsf:id="id" type="text" placeholder="Enter id: " jsf:value="#{customerBean.id}"/>
+
+        <button jsf:id="customerSubmit2" jsf:action="#{customerBean.deleteCustomerById()}">
+            <f:ajax execute="id" render="@form :tablePanel"/>
+            Delete
+        </button>
+    </form>
+
+
+    <br/>
+    <h:dataTable value="#{customerBean.allCustomersList}" var="customer" border="2" id="tablePanel"
+                 styleClass="customers">
+
+        <h:column>
+            <f:facet name="header">ID</f:facet>
+            <h:outputText value="#{customer.id}"/>
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">First Name</f:facet>
+            <h:outputText value="#{customer.firstName}"/>
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">Last Name</f:facet>
+            <h:outputText value="#{customer.lastName}"/>
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">Email</f:facet>
+            <h:outputText value="#{customer.email}"/>
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">Action</f:facet>
+            <button jsf:onclick="return confirm('Are you sure ?')" value="Submit" jsf:id="deleteB" jsf:action="#{customerBean.deleteByInput(customer.id)}">
+                <f:ajax execute="deleteB" render="@form @all" />
+                Delete
+            </button>
+        </h:column>
+    </h:dataTable>
+
+
+</h:body>
+
+</html>
