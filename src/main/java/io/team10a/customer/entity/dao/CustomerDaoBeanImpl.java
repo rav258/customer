@@ -8,6 +8,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
+import java.util.Objects;
 
 @Stateless
 public class CustomerDaoBeanImpl {
@@ -32,19 +33,17 @@ public class CustomerDaoBeanImpl {
         }
     }
 
-    public void updateCustomer(String firstName, String lastName, String email, Long id){
-        Customer customer;
-        customer = entityManager.find(Customer.class, id);
-        customer.setFirstName(firstName);
-        customer.setLastName(lastName);
-        customer.setEmail(email);
-        entityManager.merge(customer);
+    public void deleteCustomerRest(Long id){
+        Customer customer = entityManager.find(Customer.class, id);
+        entityManager.remove(customer);
     }
+
+
 
     public Customer findByID(Long id){
         final List<Customer> customers = customerList();
         return customers.stream()
-                .filter(a->a.getId() == id)
+                .filter(a-> Objects.equals(a.getId(), id))
                 .findFirst()
                 .orElse(null);
     }

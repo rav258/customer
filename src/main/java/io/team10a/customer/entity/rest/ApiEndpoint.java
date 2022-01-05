@@ -51,6 +51,11 @@ public class ApiEndpoint {
         customerBean.saveCustomer(customer.getFirstName(), customer.getLastName(), customer.getEmail());
     }
 
+    @DELETE
+    @Path("/{id}")
+    public void deleteCustomer(@PathParam("id") Long id){
+        customerBean.deleteCustomerRest(id);
+    }
 
 
 }
