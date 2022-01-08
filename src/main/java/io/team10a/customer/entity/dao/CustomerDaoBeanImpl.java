@@ -2,13 +2,10 @@ package io.team10a.customer.entity.dao;
 
 import io.team10a.customer.entity.Customer;
 
-import javax.annotation.Resource;
-import javax.ejb.EJBContext;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
-import java.util.Objects;
 
 @Stateless
 public class CustomerDaoBeanImpl {
@@ -38,4 +35,9 @@ public class CustomerDaoBeanImpl {
     public Customer findByid(Long id) {
         return entityManager.find(Customer.class, id);
     }
+
+    public Customer updateCustomer(Customer curent) {
+        return entityManager.merge(curent);
+    }
+
 }

@@ -1,7 +1,7 @@
 package io.team10a.customer.entity.rest;
 
 import io.team10a.customer.entity.Customer;
-import io.team10a.customer.entity.dao.CustomerBean;
+import io.team10a.customer.entity.dao.CriteriaBean;
 import io.team10a.customer.entity.dao.CustomerDaoBeanImpl;
 
 import javax.enterprise.context.RequestScoped;
@@ -19,6 +19,9 @@ public class ApiEndpoint {
 
     @Inject
     CustomerDaoBeanImpl customerBean;
+
+    @Inject
+    CriteriaBean criteriaBean;
 
     @GET
     @Path("/hello")
@@ -47,15 +50,31 @@ public class ApiEndpoint {
 
     @POST
     @Path("new")
+    @Produces(MediaType.APPLICATION_JSON)
     public void saveCustomerApi(Customer customer) {
         customerBean.saveCustomer(customer.getFirstName(), customer.getLastName(), customer.getEmail());
     }
 
     @DELETE
     @Path("/{id}")
-    public void deleteCustomer(@PathParam("id") Long id){
+    public void deleteCustomer(@PathParam("id") Long id) {
         customerBean.deleteCustomerRest(id);
     }
 
+    @PUT
+    @Path("update/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Customer updateUser(@PathParam("id")Long id, Customer customer){
+
+        return customerBean.updateCustomer(customer);
+    }
+
+    @GET
+    @Path("/allByCriteria")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Customer> getAllByCriteria(@QueryParam("name") String firstName){
+        return criteriaBean.findAllCustomersWithoutPredicateSet(firstName);
+    }
 
 }
