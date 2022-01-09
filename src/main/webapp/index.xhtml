@@ -46,6 +46,7 @@
 
 
     <br/>
+    <form jsf:id="forUpdated">
     <h:dataTable value="#{customerBean.allCustomersList}" var="customer" border="2" id="tablePanel"
                  styleClass="customers">
 
@@ -72,12 +73,13 @@
         <h:column>
             <f:facet name="header">Action</f:facet>
             <button jsf:onclick="return confirm('Are you sure ?')" value="Submit" jsf:id="deleteB" jsf:action="#{customerBean.deleteCustomer(customer.id)}">
-                <f:ajax execute="deleteB" render="@form @all" />
+                <f:ajax execute="deleteB" render=":forUpdated" />
                 Delete
             </button>
         </h:column>
-    </h:dataTable>
 
+    </h:dataTable>
+    </form>
 
 </h:body>
 

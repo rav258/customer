@@ -4,14 +4,12 @@ import io.team10a.customer.entity.Customer;
 import lombok.Data;
 
 import javax.ejb.EJB;
-import javax.enterprise.context.ApplicationScoped;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Named
 @ViewScoped
@@ -42,4 +40,6 @@ public class CustomerBean implements Serializable {
     public void deleteCustomer(Long id) {
         customerDaoBeanImpl.deleteCustomerRest(id);
     }
+
+
 }

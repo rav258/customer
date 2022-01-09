@@ -1,7 +1,7 @@
 package io.team10a.customer.entity.rest;
 
 import io.team10a.customer.entity.Customer;
-import io.team10a.customer.entity.dao.CustomerBean;
+import io.team10a.customer.entity.dao.CriteriaUpdateDemo;
 import io.team10a.customer.entity.dao.CustomerDaoBeanImpl;
 
 import javax.enterprise.context.RequestScoped;
@@ -19,6 +19,9 @@ public class ApiEndpoint {
 
     @Inject
     CustomerDaoBeanImpl customerBean;
+
+    @Inject
+    CriteriaUpdateDemo criteriaUpdateDemo;
 
     @GET
     @Path("/hello")
@@ -53,9 +56,31 @@ public class ApiEndpoint {
 
     @DELETE
     @Path("/{id}")
-    public void deleteCustomer(@PathParam("id") Long id){
+    public void deleteCustomer(@PathParam("id") Long id) {
         customerBean.deleteCustomerRest(id);
     }
 
+    @PUT
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/update/{id}")
+    public Customer updateCustomer(@PathParam("id") Long id, Customer update) {
+        customerBean.update(update);
+        return update;
+    }
+
+
+    @PUT
+    @Path("/updateCustomerName")
+    public void updateCustomerName(@QueryParam("id") Long id,@QueryParam("new") String newName) {
+        criteriaUpdateDemo.updateCustomersFirstName(id, newName);
+    }
+
+    @GET
+    @Path("/all2")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Customer> getAllCustomers2(@QueryParam("name") String name) {
+        return criteriaUpdateDemo.listAllCustomers(name);
+    }
 
 }
