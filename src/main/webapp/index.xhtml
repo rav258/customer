@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:jsf="http://xmlns.jcp.org/jsf"
-      xmlns:f="http://java.sun.com/jsf/core">
+      xmlns:f="http://java.sun.com/jsf/core" xmlns:p="http://primefaces.org/ui">
 
 
 <h:head>
@@ -12,10 +12,7 @@
 
 <h:body>
     <h:outputStylesheet library="css" name="customerTable.css"/>
-
-    <p>Enter Customer Data</p>
-
-
+    
     <form jsf:id="customerForm" Class="form-style-5">
         <h:messages styleClass="validation"/>
         <input jsf:id="firstName" type="text" placeholder="Enter first name: "
@@ -29,7 +26,7 @@
         <br/>
 
         <button jsf:id="customerSubmit1" jsf:action="#{customerBean.saveCustomer()}">
-            <f:ajax execute="firstName lastName email" render="@form :tablePanel"/>
+            <f:ajax execute="firstName lastName email" render="@form :master"/>
             Send
         </button>
     </form>
@@ -39,45 +36,52 @@
         <input jsf:id="id" type="text" placeholder="Enter id: " jsf:value="#{customerBean.id}"/>
 
         <button jsf:id="customerSubmit2" jsf:action="#{customerBean.deleteCustomer(customerBean.id)}">
-            <f:ajax execute="id" render="@form :tablePanel"/>
+            <f:ajax execute="id" render="@all :master :customerForm2"/>
             Delete
         </button>
     </form>
 
 
     <br/>
-    <h:dataTable value="#{customerBean.allCustomersList}" var="customer" border="2" id="tablePanel"
-                 styleClass="customers">
 
-        <h:column>
+
+    <h:form id="master" styleClass="customers">
+        <p:dataTable value="#{customerBean.allCustomersList}" var="entity" styleClass="customers">
+            <p:column>#{entity.id}
             <f:facet name="header">ID</f:facet>
-            <h:outputText value="#{customer.id}"/>
-        </h:column>
+            </p:column>
+            <p:column>#{entity.firstName}
+                <f:facet name="header">First Name</f:facet>
+            </p:column>
+            <p:column>#{entity.lastName}
+                <f:facet name="header">Last Name</f:facet></p:column>
+            <p:column>#{entity.email}
+                <f:facet name="header">Email</f:facet>
+            </p:column>
 
-        <h:column>
-            <f:facet name="header">First Name</f:facet>
-            <h:outputText value="#{customer.firstName}"/>
-        </h:column>
+            <p:column>
+                <f:facet name="header">Action</f:facet>
+                <button jsf:onclick="return confirm('Are you sure ?')" value="Submit" jsf:id="deleteB" jsf:action="#{customerBean.deleteCustomer(entity.id)}">
+                    <f:ajax execute="deleteB" render="@form @all" />
+                    Delete
+                </button>
+                <p:commandButton value="Update" action="#{customerBean.setCustomer(entity)}"
+                                 update=":detail" oncomplete="PF('detail').show()" />
+            </p:column>
+        </p:dataTable>
+    </h:form>
 
-        <h:column>
-            <f:facet name="header">Last Name</f:facet>
-            <h:outputText value="#{customer.lastName}"/>
-        </h:column>
-
-        <h:column>
-            <f:facet name="header">Email</f:facet>
-            <h:outputText value="#{customer.email}"/>
-        </h:column>
-
-        <h:column>
-            <f:facet name="header">Action</f:facet>
-            <button jsf:onclick="return confirm('Are you sure ?')" value="Submit" jsf:id="deleteB" jsf:action="#{customerBean.deleteCustomer(customer.id)}">
-                <f:ajax execute="deleteB" render="@form @all" />
-                Delete
-            </button>
-        </h:column>
-    </h:dataTable>
-
+    <p:dialog id="detail" widgetVar="detail">
+        <h:form>
+            <p:inputText value="#{customerBean.customer.id}" disabled="true"/>
+            <p:inputText value="#{customerBean.customer.firstName}"  />
+            <p:inputText value="#{customerBean.customer.lastName}"  />
+            <p:inputText value="#{customerBean.customer.email}" />
+            <p:button value="Close" onclick="PF('detail').hide(); return false" />
+            <p:commandButton value="Save" action="#{customerBean.updateCustomer()}"
+                             update=":master" oncomplete="if(!args.validationFailed) PF('detail').hide()" />
+        </h:form>
+    </p:dialog>
 
 </h:body>
 

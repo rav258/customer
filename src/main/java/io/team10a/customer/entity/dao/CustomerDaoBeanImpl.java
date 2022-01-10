@@ -1,10 +1,14 @@
 package io.team10a.customer.entity.dao;
 
 import io.team10a.customer.entity.Customer;
+import io.team10a.customer.entity.Customer_;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaUpdate;
+import javax.persistence.criteria.Root;
 import java.util.List;
 
 @Stateless
@@ -39,5 +43,9 @@ public class CustomerDaoBeanImpl {
     public Customer updateCustomer(Customer curent) {
         return entityManager.merge(curent);
     }
+
+public void saveCustomer(Customer customer){
+       entityManager.merge(customer);
+}
 
 }

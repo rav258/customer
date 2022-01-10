@@ -7,6 +7,8 @@ import io.team10a.customer.entity.dao.CustomerDaoBeanImpl;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.transaction.*;
+import javax.transaction.NotSupportedException;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
@@ -76,5 +78,15 @@ public class ApiEndpoint {
     public List<Customer> getAllByCriteria(@QueryParam("name") String firstName){
         return criteriaBean.findAllCustomersWithoutPredicateSet(firstName);
     }
+
+    @PUT
+    @Path("/updateFN")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public void updateFirstNameByCriteria(@QueryParam("name")String name,Customer customer) throws HeuristicRollbackException, SystemException, HeuristicMixedException, NotSupportedException, RollbackException {
+        criteriaBean.updateName(customer);
+    }
+
+
 
 }

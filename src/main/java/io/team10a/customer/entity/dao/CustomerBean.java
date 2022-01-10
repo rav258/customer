@@ -17,6 +17,16 @@ import java.util.List;
 @Data
 public class CustomerBean implements Serializable {
 
+    private Customer customer;
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
     @EJB
     CustomerDaoBeanImpl customerDaoBeanImpl;
     @Size(min = 2)
@@ -42,8 +52,10 @@ public class CustomerBean implements Serializable {
         customerDaoBeanImpl.deleteCustomerRest(id);
     }
 
+    public void updateCustomer() {
+        customerDaoBeanImpl.saveCustomer(customer);
 
-
+    }
 
 
 }

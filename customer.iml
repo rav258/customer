@@ -48,5 +48,6 @@
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.hibernate:hibernate-jpamodelgen:5.2.10.Final" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.jboss.logging:jboss-logging:3.3.0.Final" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: javax.xml.bind:jaxb-api:2.3.0" level="project" />
+    <orderEntry type="library" name="Maven: org.primefaces:primefaces:7.0" level="project" />
   </component>
 </module>
